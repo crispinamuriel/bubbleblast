@@ -1,3 +1,7 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 let cnv;
 let player;
 let enemy;
@@ -65,52 +69,146 @@ function setup() {
   fish = createSprite(890, 350, 26, 18);
   fish.addAnimation("normal", "assets/fish.png");
 
-  oceanScape = [base, turtle, desks, sub];
+  oceanScape = [base, base2, turtle, fish, sub];
   ciel = createSprite(500, -5, 1000, 5);
 
 }
 
 function draw() {
+  background(10, 40, 70);
+  drawSprites();
 
+  // BASIC INTERFACE SETUP
 
-    background(10, 40, 70);
-    drawSprites();
+  textSize(16);
+  textFont("courier");
+  fill(255, 255, 255);
+  let scoreText = text("Bubbles Collected: " + score, 800, 20);
+  let levelText = text("Level " + levelCount, 20, 20);
 
-    // BASIC INTERFACE SETUP
-
-    textSize(16);
+  if (paused === true) {
+    textSize(30);
     textFont("courier");
     fill(255, 255, 255);
-    let scoreText = text("Bubbles Collected: " + score, 800, 20);
-    let levelText = text("Level " + levelCount, 20, 20);
+    let pauseText = text("Paused", 450, 285);
+  }
+  bubble1.move();
+  bubble1.show();
+  bubble2.move();
+  bubble2.show();
+  bubble3.move();
+  bubble3.show();
+  bubble4.move();
+  bubble4.show();
 
-    if (paused === true) {
-      textSize(30)
-      textFont("courier");
-      fill(255, 255, 255);
-      let pauseText = text("Paused", 450, 285);
+
+  // player setup
+  player = createSprite(450, 150, 80, 53);
+  player.addAnimation("normalright", "assets/player1/idlePlayerRight.png");
+  player.addAnimation("normalleft", "assets/player1/idlePlayerLeft.png");
+  player.addAnimation(
+    "runright",
+    "assets/player1/runPlayerRight01.png",
+    "assets/player1/runPlayerRight02.png",
+    "assets/player1/runPlayerRight03.png",
+    "assets/player1/runPlayerRight04.png"
+  );
+  player.addAnimation(
+    "runleft",
+    "assets/player1/runPlayerLeft01.png",
+    "assets/player1/runPlayerLeft02.png",
+    "assets/player1/runPlayerLeft03.png",
+    "assets/player1/runPlayerLeft04.png"
+  );
+  player.addAnimation("jumpright", "assets/player1/jumpPlayerRight.png");
+  player.addAnimation("jumpleft", "assets/player1/jumpPlayerLeft.png");
+
+  //PLAYER MOVEMENT & CONTROLS
+
+  player.velocity.y += 0.23;
+  player.maxSpeed = 5;
+
+  if (player.position.x < 0) {
+    player.position.x = 1000;
+  }
+
+  if (player.position.x > 1000) {
+    player.position.x = 0;
+  }
+
+  if (
+    keyWentDown(" ") ||
+    keyWentDown(UP_ARROW) ||
+    keyWentDown("w")
+  ) {
+    player.velocity.y -= 20;
+    if (playerStatus === "right") {
+      player.changeAnimation("jumpright");
+    } else if (playerStatus === "left") {
+      player.changeAnimation("jumpleft");
     }
-    bubble1.move();
-    bubble1.show();
-    bubble2.move();
-    bubble2.show();
-    bubble3.move();
-    bubble3.show();
-    bubble4.move();
-    bubble4.show();
-   //PLATFORM COLLISION
+  }
 
-    // furniture.forEach((block) => {
-    //   if (player.collide(block)) {
-    //     player.velocity.y = 0;
-    //     if (playerStatus === "right") {
-    //       player.changeAnimation("normalright");
-    //     } else if (playerStatus === "left") {
-    //       player.changeAnimation("normalleft");
-    //     }
-    //   };
-    // });
+  if (keyWentDown("d") || keyWentDown(RIGHT_ARROW)) {
+    playerStatus = "right";
+  }
 
+  if (keyDown("d") || keyDown(RIGHT_ARROW)) {
+    player.velocity.x += 0.4;
+    player.changeAnimation("runright");
+  }
+
+  if (keyWentDown("a") || keyWentDown(LEFT_ARROW)) {
+    playerStatus = "left";
+  }
+
+  if (keyDown("a") || keyDown(LEFT_ARROW)) {
+    player.velocity.x -= 0.4;
+    player.changeAnimation("runleft");
+  }
+
+  if (
+    keyWentUp("a") ||
+    keyWentUp("d") ||
+    keyWentUp(LEFT_ARROW) ||
+    keyWentUp(RIGHT_ARROW)
+  ) {
+    player.velocity.x = 0;
+    if (playerStatus === "right") {
+      if (player.velocity.y) {
+        player.changeAnimation("jumpright");
+      } else {
+        player.changeAnimation("runright");
+      }
+    } else if (playerStatus === "left") {
+      if (player.velocity.y) {
+        player.changeAnimation("jumpleft");
+      } else {
+        player.changeAnimation("runleft");
+      }
+    }
+  }
+  player = createSprite(450, 150, 80, 53);
+    player.addAnimation("normalright", "assets/player/readyright.gif");
+    player.addAnimation("normalleft", "assets/player/readyleft.gif");
+    player.addAnimation("runright", "assets/player/runright1.png", "assets/player/runright2.png",
+                        "assets/player/runright3.png", "assets/player/runright4.png");
+    player.addAnimation("runleft", "assets/player/runleft1.png", "assets/player/runleft2.png",
+                        "assets/player/runleft3.png", "assets/player/runleft4.png");
+    player.addAnimation("jumpright", "assets/player/attackright.gif");
+    player.addAnimation("jumpleft", "assets/player/attackleft.gif");
+    //PLATFORM COLLISION
+
+  oceanScape.forEach(block => {
+    if (player.collide(block)) {
+      player.velocity.y = 0;
+      if (playerStatus === "right") {
+        player.changeAnimation("normalright");
+      } else if (playerStatus === "left") {
+        player.changeAnimation("normalleft");
+      }
+    }
+  });
 }
 
 class Bubble {
