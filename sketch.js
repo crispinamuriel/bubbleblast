@@ -71,7 +71,7 @@ function draw() {
     let levelText = text("Level " + levelCount, 20, 20);
 
     if (paused === true) {
-      textSize(30);
+      textSize(30)
       textFont("courier");
       fill(255, 255, 255);
       let pauseText = text("Paused", 450, 285);
