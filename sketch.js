@@ -33,7 +33,6 @@ let oldLevelCount = levelCount;
 function setup() {
   bg = loadImage('assets/background.jpeg');
   cnv = createCanvas(1000, 600);
-  cnv.parent('sketch-holder')
   scoreElem = createDiv("Cookies = " + score);
   scoreElem.position(20, 20);
   scoreElem.id = "score";
@@ -59,7 +58,6 @@ function setup() {
 
 function draw() {
 
-  if (hasStarted === true) {
 
     background(bg);
     drawSprites();
@@ -80,18 +78,17 @@ function draw() {
     }
    //PLATFORM COLLISION
 
-    platforms.forEach((plat) => {
-      if (player.collide(plat)) {
-        player.velocity.y = 0;
-        if (playerStatus === "right") {
-          player.changeAnimation("normalright");
-        } else if (playerStatus === "left") {
-          player.changeAnimation("normalleft");
-        }
-      };
-    });
+    // furniture.forEach((block) => {
+    //   if (player.collide(block)) {
+    //     player.velocity.y = 0;
+    //     if (playerStatus === "right") {
+    //       player.changeAnimation("normalright");
+    //     } else if (playerStatus === "left") {
+    //       player.changeAnimation("normalleft");
+    //     }
+    //   };
+    // });
 
-  }
 }
 
 
