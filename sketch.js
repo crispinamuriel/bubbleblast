@@ -1,12 +1,13 @@
 let cnv;
 let player;
-let classMate;
-let classMate2;
-let classMate3;
-let classMates4;
+let enemy;
+let enemy2;
+let enemy3;
+let enemys4;
 let full;
 let roll;
 let base;
+let base2;
 let classroom;
 let chair;
 let desk;
@@ -16,16 +17,16 @@ let desk4;
 let desk5;
 let desk6;
 let desk7;
-let cookie1;
-let cookie2;
-let cookie3;
-let cookie4;
-let cookie5;
+let bubble1;
+let bubble2;
+let bubble3;
+let bubble4;
+let bubble5;
 let ciel;
 let con
 let desks;
 let playerStatus;
-let furniture;
+let oceanScape;
 let scoreText;
 let score = 1;
 let hasStarted = false;
@@ -37,23 +38,26 @@ let oldLevelCount = levelCount;
 
 function setup() {
   // bg = loadImage('assets/background.jpeg');
-  bg = background(100)
+  bg = background(300)
   cnv = createCanvas(1000, 600);
-  scoreElem = createDiv("Cookies = " + score);
+  scoreElem = createDiv("Bubbles = " + score);
   scoreElem.position(20, 20);
   scoreElem.id = "score";
   scoreElem.style("color", "white");
   full = [];
-  cookie1 = new Cookie();
-  cookie2 = new Cookie();
-  cookie3 = new Cookie();
-  cookie4 = new Cookie();
+  bubble1 = new Bubble();
+  bubble2 = new Bubble();
+  bubble3 = new Bubble();
+  bubble4 = new Bubble();
 
-  base = createSprite(300, 300, 77, 64);
-  base.addAnimation("normal", "assets/turtle.png");
+  base = createSprite(400, 525, 799, 151);
+  base.addAnimation("normal", "assets/base.png");
 
-  chair = createSprite(300, 390, 49, 69)
-  chair.addAnimation("normal", "assets/chair.png");
+  base2 = createSprite(1199, 525, 799, 151);
+  base2.addAnimation("normal", "assets/base.png");
+
+  chair = createSprite(250, 390, 77, 64)
+  chair.addAnimation("normal", "assets/turtle.png");
 
   desks = createSprite(550, 340, 468, 127)
   desks.addAnimation("normal", "assets/desks.png");
@@ -61,7 +65,7 @@ function setup() {
   con = createSprite(40, 400, 77, 112);
   con.addAnimation("normal", "assets/console.png");
 
-  furniture = [base, chair, desks, con];
+  oceanScape = [base, chair, desks, con];
   ciel = createSprite(500, -5, 1000, 5);
 
 }
@@ -69,7 +73,7 @@ function setup() {
 function draw() {
 
 
-    background(0);
+    background(10, 40, 70);
     drawSprites();
 
     // BASIC INTERFACE SETUP
@@ -77,7 +81,7 @@ function draw() {
     textSize(16);
     textFont("courier");
     fill(255, 255, 255);
-    let scoreText = text("Cookies Eaten: " + score, 820, 20);
+    let scoreText = text("Bubbles Collected: " + score, 800, 20);
     let levelText = text("Level " + levelCount, 20, 20);
 
     if (paused === true) {
@@ -86,14 +90,14 @@ function draw() {
       fill(255, 255, 255);
       let pauseText = text("Paused", 450, 285);
     }
-    cookie1.move();
-    cookie1.show();
-    cookie2.move();
-    cookie2.show();
-    cookie3.move();
-    cookie3.show();
-    cookie4.move();
-    cookie4.show();
+    bubble1.move();
+    bubble1.show();
+    bubble2.move();
+    bubble2.show();
+    bubble3.move();
+    bubble3.show();
+    bubble4.move();
+    bubble4.show();
    //PLATFORM COLLISION
 
     // furniture.forEach((block) => {
@@ -109,7 +113,7 @@ function draw() {
 
 }
 
-class Cookie {
+class Bubble {
   constructor() {
     this.x = 300;
     this.y = 400;
@@ -128,7 +132,7 @@ class Cookie {
   }
 }
 
-class Classmate {
+class Enemy {
   constructor(x, y) {
     this.x = x;
     this.y = y
