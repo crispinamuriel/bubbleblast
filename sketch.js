@@ -9,7 +9,7 @@ let roll;
 let base;
 let base2;
 let classroom;
-let chair;
+let turtle;
 let desk;
 let desk2;
 let desk3
@@ -23,8 +23,8 @@ let bubble3;
 let bubble4;
 let bubble5;
 let ciel;
+let fish;
 let sub;
-let desks;
 let playerStatus;
 let oceanScape;
 let scoreText;
@@ -56,16 +56,16 @@ function setup() {
   base2 = createSprite(1199, 525, 799, 151);
   base2.addAnimation("normal", "assets/base.png");
 
-  chair = createSprite(250, 390, 77, 64)
-  chair.addAnimation("normal", "assets/turtle.png");
+  turtle = createSprite(250, 390, 77, 64)
+  turtle.addAnimation("normal", "assets/turtle.png");
 
-  desks = createSprite(550, 340, 468, 127)
-  desks.addAnimation("normal", "assets/sub.png");
+  sub = createSprite(550, 340, 468, 127)
+  sub.addAnimation("normal", "assets/sub.png");
 
   fish = createSprite(890, 350, 26, 18);
   fish.addAnimation("normal", "assets/fish.png");
 
-  oceanScape = [base, chair, desks, sub];
+  oceanScape = [base, turtle, desks, sub];
   ciel = createSprite(500, -5, 1000, 5);
 
 }
