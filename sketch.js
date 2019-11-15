@@ -16,6 +16,11 @@ let desk4;
 let desk5;
 let desk6;
 let desk7;
+let cookie1;
+let cookie2;
+let cookie3;
+let cookie4;
+let cookie5;
 let ciel;
 let con
 let desks;
@@ -31,13 +36,18 @@ let oldLevelCount = levelCount;
 
 
 function setup() {
-  bg = loadImage('assets/background.jpeg');
+  // bg = loadImage('assets/background.jpeg');
+  bg = background(100)
   cnv = createCanvas(1000, 600);
   scoreElem = createDiv("Cookies = " + score);
   scoreElem.position(20, 20);
   scoreElem.id = "score";
   scoreElem.style("color", "white");
   full = [];
+  cookie1 = new Cookie();
+  cookie2 = new Cookie();
+  cookie3 = new Cookie();
+  cookie4 = new Cookie();
 
   base = createSprite(300, 300, 77, 64);
   base.addAnimation("normal", "assets/turtle.png");
@@ -59,7 +69,7 @@ function setup() {
 function draw() {
 
 
-    background(bg);
+    background(0);
     drawSprites();
 
     // BASIC INTERFACE SETUP
@@ -76,6 +86,14 @@ function draw() {
       fill(255, 255, 255);
       let pauseText = text("Paused", 450, 285);
     }
+    cookie1.move();
+    cookie1.show();
+    cookie2.move();
+    cookie2.show();
+    cookie3.move();
+    cookie3.show();
+    cookie4.move();
+    cookie4.show();
    //PLATFORM COLLISION
 
     // furniture.forEach((block) => {
@@ -91,4 +109,35 @@ function draw() {
 
 }
 
+class Cookie {
+  constructor() {
+    this.x = 300;
+    this.y = 400;
+  }
 
+  move() {
+    this.x = this.x + random(-10, 10);
+    this.y = this.y + random(-10, 10);
+  }
+
+  show() {
+    stroke(255);
+    strokeWeight(4);
+    noFill();
+    ellipse(this.x, this.y, 24, 24);
+  }
+}
+
+class Classmate {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y
+  }
+  move() {
+    this.x = this.x + random(1, 1);
+    this.y = this.y + random(1, 1);
+  }
+  show() {
+
+  }
+}
