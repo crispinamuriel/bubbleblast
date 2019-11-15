@@ -23,7 +23,7 @@ let bubble3;
 let bubble4;
 let bubble5;
 let ciel;
-let con
+let sub;
 let desks;
 let playerStatus;
 let oceanScape;
@@ -60,12 +60,12 @@ function setup() {
   chair.addAnimation("normal", "assets/turtle.png");
 
   desks = createSprite(550, 340, 468, 127)
-  desks.addAnimation("normal", "assets/desks.png");
+  desks.addAnimation("normal", "assets/sub.png");
 
-  con = createSprite(40, 400, 77, 112);
-  con.addAnimation("normal", "assets/console.png");
+  fish = createSprite(890, 350, 26, 18);
+  fish.addAnimation("normal", "assets/fish.png");
 
-  oceanScape = [base, chair, desks, con];
+  oceanScape = [base, chair, desks, sub];
   ciel = createSprite(500, -5, 1000, 5);
 
 }
