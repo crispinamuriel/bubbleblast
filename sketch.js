@@ -41,14 +41,10 @@ let oldLevelCount = levelCount;
 
 
 function setup() {
-    bg = loadImage('assets/background.jpeg');
-    bg = background(300)
+    bg = background(300);
     cnv = createCanvas(1000, 600);
-    scoreElem = createDiv("Bubbles = " + score);
-    scoreElem.position(20, 20);
-    scoreElem.id = "score";
-    scoreElem.style("color", "white");
-    full = [];
+    cnv.parent('sketch-holder');
+   
     bubble1 = new Bubble();
     bubble2 = new Bubble();
     bubble3 = new Bubble();
@@ -66,10 +62,9 @@ function setup() {
     fish = createSprite(890, 350, 26, 18);
     fish.addAnimation("normal", "assets/fish.png");
 
-    ciel = createSprite(500, -5, 1000, 5);
+    ciel = createSprite(500, -5, 1000, 5)
 
-    oceanScape = [base, base2, turtle, fish];
-
+    oceanScape = [base, base2, turtle, fish]
 
 }
 
@@ -77,7 +72,7 @@ function draw() {
 
     if (hasStarted === true) {
 
-        background(10, 40, 70);
+        background(bg);
         drawSprites();
 
         // BASIC INTERFACE SETUP
@@ -258,8 +253,6 @@ function mousePressed() {
     }
 }
 
-
-
 class Bubble {
     constructor() {
         this.x = 300;
@@ -276,19 +269,5 @@ class Bubble {
         strokeWeight(4);
         noFill();
         ellipse(this.x, this.y, 24, 24);
-    }
-}
-
-class Enemy {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y
-    }
-    move() {
-        this.x = this.x + random(1, 1);
-        this.y = this.y + random(1, 1);
-    }
-    show() {
-
     }
 }
