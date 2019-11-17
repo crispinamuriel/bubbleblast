@@ -63,15 +63,12 @@ function setup() {
     turtle = createSprite(250, 390, 77, 64)
     turtle.addAnimation("normal", "assets/turtle.png");
 
-    sub = createSprite(550, 340, 468, 127)
-    sub.addAnimation("normal", "assets/sub.png");
-
     fish = createSprite(890, 350, 26, 18);
     fish.addAnimation("normal", "assets/fish.png");
 
     ciel = createSprite(500, -5, 1000, 5);
 
-    oceanScape = [base, base2, turtle, fish, sub];
+    oceanScape = [base, base2, turtle, fish];
 
 
 }
