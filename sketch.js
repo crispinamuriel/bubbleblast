@@ -36,7 +36,7 @@ let oldLevelCount = levelCount;
 
 
 function setup() {
-    bg = background(300);
+    //bg = background(300);
     cnv = createCanvas(1000, 600);
     cnv.parent('sketch-holder');
    
@@ -65,9 +65,7 @@ function setup() {
 
 function draw() {
 
-    if (hasStarted === true) {
-
-        background(bg);
+        background(10,40,55);
         drawSprites();
 
         // BASIC INTERFACE SETUP
@@ -84,6 +82,27 @@ function draw() {
             fill(255, 255, 255);
             let pauseText = text("Paused", 450, 285);
         }
+
+         // player setup
+         player = createSprite(450, 150, 80, 53);
+         player.addAnimation("normalright", "assets/player1/idlePlayerRight.png");
+         player.addAnimation("normalleft", "assets/player1/idlePlayerLeft.png");
+         player.addAnimation(
+             "runright",
+             "assets/player1/runPlayerRight01.png",
+             "assets/player1/runPlayerRight02.png",
+             "assets/player1/runPlayerRight03.png",
+             "assets/player1/runPlayerRight04.png"
+         );
+         player.addAnimation(
+             "runleft",
+             "assets/player1/runPlayerLeft01.png",
+             "assets/player1/runPlayerLeft02.png",
+             "assets/player1/runPlayerLeft03.png",
+             "assets/player1/runPlayerLeft04.png"
+         );
+         player.addAnimation("jumpright", "assets/player1/jumpPlayerRight.png");
+         player.addAnimation("jumpleft", "assets/player1/jumpPlayerLeft.png");
 
         //PLATFORM COLLISION
 
@@ -171,45 +190,10 @@ function draw() {
                 }
             }
         }
-    } else {
-
-        background(bg);
-        drawSprites();
-
-        //INTERFACE SETUP
-
-        /*textSize(16);
-        textFont("courier");
-        fill(255, 255, 255);
-        if (turnCount === 0) {
-            let scoreText = text("Click to Start", 810, 30);
-        } else {
-            let scoreText = text("Click to Try Again", 810, 30);
-        }
-
-        textSize(50);
-        textFont("courier");
-        fill(255, 255, 255);
-        let titleCard = text("Water Bubbles", 440, 270);
-
-        textSize(24);
-        textFont("courier");
-        fill(255, 255, 255);
-        let nameTag = text("Jenn Muriel", 330, 310);*/
-
-        bubble1.move();
-        bubble1.show();
-        bubble2.move();
-        bubble2.show();
-        bubble3.move();
-        bubble3.show();
-        bubble4.move();
-        bubble4.show();
-
-    }
+    
 }
 
-function mousePressed() {
+/*function mousePressed() {
     if (hasStarted === false) {
         if (player) {
             player.remove();
@@ -246,21 +230,18 @@ function mousePressed() {
             loop();
         }
     }
-}
+}*/
 
 class Bubble {
     constructor() {
         this.x = 300;
         this.y = 400;
     }
-
     move() {
         this.x = this.x + random(-10, 10);
         this.y = this.y + random(-10, 10);
     }
-
     show() {
-        
         noFill();
         stroke(255);
         strokeWeight(4);
