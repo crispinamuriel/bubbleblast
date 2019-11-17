@@ -41,205 +41,257 @@ let oldLevelCount = levelCount;
 
 
 function setup() {
-  // bg = loadImage('assets/background.jpeg');
-  bg = background(300)
-  cnv = createCanvas(1000, 600);
-  scoreElem = createDiv("Bubbles = " + score);
-  scoreElem.position(20, 20);
-  scoreElem.id = "score";
-  scoreElem.style("color", "white");
-  full = [];
-  bubble1 = new Bubble();
-  bubble2 = new Bubble();
-  bubble3 = new Bubble();
-  bubble4 = new Bubble();
+    bg = loadImage('assets/background.jpeg');
+    bg = background(300)
+    cnv = createCanvas(1000, 600);
+    scoreElem = createDiv("Bubbles = " + score);
+    scoreElem.position(20, 20);
+    scoreElem.id = "score";
+    scoreElem.style("color", "white");
+    full = [];
+    bubble1 = new Bubble();
+    bubble2 = new Bubble();
+    bubble3 = new Bubble();
+    bubble4 = new Bubble();
 
-  base = createSprite(400, 525, 799, 151);
-  base.addAnimation("normal", "assets/base.png");
+    base = createSprite(400, 525, 799, 151);
+    base.addAnimation("normal", "assets/base.png");
 
-  base2 = createSprite(1199, 525, 799, 151);
-  base2.addAnimation("normal", "assets/base.png");
+    base2 = createSprite(1199, 525, 799, 151);
+    base2.addAnimation("normal", "assets/base.png");
 
-  turtle = createSprite(250, 390, 77, 64)
-  turtle.addAnimation("normal", "assets/turtle.png");
+    turtle = createSprite(250, 390, 77, 64)
+    turtle.addAnimation("normal", "assets/turtle.png");
 
-  sub = createSprite(550, 340, 468, 127)
-  sub.addAnimation("normal", "assets/sub.png");
+    sub = createSprite(550, 340, 468, 127)
+    sub.addAnimation("normal", "assets/sub.png");
 
-  fish = createSprite(890, 350, 26, 18);
-  fish.addAnimation("normal", "assets/fish.png");
+    fish = createSprite(890, 350, 26, 18);
+    fish.addAnimation("normal", "assets/fish.png");
 
-  oceanScape = [base, base2, turtle, fish, sub];
-  ciel = createSprite(500, -5, 1000, 5);
+    ciel = createSprite(500, -5, 1000, 5);
+
+    oceanScape = [base, base2, turtle, fish, sub];
+
 
 }
 
 function draw() {
-  background(10, 40, 70);
-  drawSprites();
 
-  // BASIC INTERFACE SETUP
+    if (hasStarted === true) {
 
-  textSize(16);
-  textFont("courier");
-  fill(255, 255, 255);
-  let scoreText = text("Bubbles Collected: " + score, 800, 20);
-  let levelText = text("Level " + levelCount, 20, 20);
+        background(10, 40, 70);
+        drawSprites();
 
-  if (paused === true) {
-    textSize(30);
-    textFont("courier");
-    fill(255, 255, 255);
-    let pauseText = text("Paused", 450, 285);
-  }
-  bubble1.move();
-  bubble1.show();
-  bubble2.move();
-  bubble2.show();
-  bubble3.move();
-  bubble3.show();
-  bubble4.move();
-  bubble4.show();
+        // BASIC INTERFACE SETUP
 
+        textSize(16);
+        textFont("courier");
+        fill(255, 255, 255);
+        let scoreText = text("Bubbles Collected: " + score, 800, 20);
+        let levelText = text("Level " + levelCount, 20, 20);
 
-  // player setup
-  player = createSprite(450, 150, 80, 53);
-  player.addAnimation("normalright", "assets/player1/idlePlayerRight.png");
-  player.addAnimation("normalleft", "assets/player1/idlePlayerLeft.png");
-  player.addAnimation(
-    "runright",
-    "assets/player1/runPlayerRight01.png",
-    "assets/player1/runPlayerRight02.png",
-    "assets/player1/runPlayerRight03.png",
-    "assets/player1/runPlayerRight04.png"
-  );
-  player.addAnimation(
-    "runleft",
-    "assets/player1/runPlayerLeft01.png",
-    "assets/player1/runPlayerLeft02.png",
-    "assets/player1/runPlayerLeft03.png",
-    "assets/player1/runPlayerLeft04.png"
-  );
-  player.addAnimation("jumpright", "assets/player1/jumpPlayerRight.png");
-  player.addAnimation("jumpleft", "assets/player1/jumpPlayerLeft.png");
+        if (paused === true) {
+            textSize(30);
+            textFont("courier");
+            fill(255, 255, 255);
+            let pauseText = text("Paused", 450, 285);
+        }
 
-  //PLAYER MOVEMENT & CONTROLS
+        //PLATFORM COLLISION
 
-  player.velocity.y += 0.23;
-  player.maxSpeed = 5;
+        oceanScape.forEach(block => {
+            if (player.collide(block)) {
+                player.velocity.y = 0;
+                if (playerStatus === "right") {
+                    player.changeAnimation("normalright");
+                } else if (playerStatus === "left") {
+                    player.changeAnimation("normalleft");
+                }
+            }
+        });
+        bubble1.move();
+        bubble1.show();
+        bubble2.move();
+        bubble2.show();
+        bubble3.move();
+        bubble3.show();
+        bubble4.move();
+        bubble4.show();
 
-  if (player.position.x < 0) {
-    player.position.x = 1000;
-  }
+        //PLAYER MOVEMENT & CONTROLS
 
-  if (player.position.x > 1000) {
-    player.position.x = 0;
-  }
+        player.velocity.y += 0.23;
+        player.maxSpeed = 5;
 
-  if (
-    keyWentDown(" ") ||
-    keyWentDown(UP_ARROW) ||
-    keyWentDown("w")
-  ) {
-    player.velocity.y -= 20;
-    if (playerStatus === "right") {
-      player.changeAnimation("jumpright");
-    } else if (playerStatus === "left") {
-      player.changeAnimation("jumpleft");
+        if (player.position.x < 0) {
+            player.position.x = 1000;
+        }
+
+        if (player.position.x > 1000) {
+            player.position.x = 0;
+        }
+
+        if (
+            keyWentDown(" ") ||
+            keyWentDown(UP_ARROW) ||
+            keyWentDown("w")
+        ) {
+            player.velocity.y -= 20;
+            if (playerStatus === "right") {
+                player.changeAnimation("jumpright");
+            } else if (playerStatus === "left") {
+                player.changeAnimation("jumpleft");
+            }
+        }
+
+        if (keyWentDown("d") || keyWentDown(RIGHT_ARROW)) {
+            playerStatus = "right";
+        }
+
+        if (keyDown("d") || keyDown(RIGHT_ARROW)) {
+            player.velocity.x += 0.4;
+            player.changeAnimation("runright");
+        }
+
+        if (keyWentDown("a") || keyWentDown(LEFT_ARROW)) {
+            playerStatus = "left";
+        }
+
+        if (keyDown("a") || keyDown(LEFT_ARROW)) {
+            player.velocity.x -= 0.4;
+            player.changeAnimation("runleft");
+        }
+
+        if (
+            keyWentUp("a") ||
+            keyWentUp("d") ||
+            keyWentUp(LEFT_ARROW) ||
+            keyWentUp(RIGHT_ARROW)
+        ) {
+            player.velocity.x = 0;
+            if (playerStatus === "right") {
+                if (player.velocity.y) {
+                    player.changeAnimation("jumpright");
+                } else {
+                    player.changeAnimation("runright");
+                }
+            } else if (playerStatus === "left") {
+                if (player.velocity.y) {
+                    player.changeAnimation("jumpleft");
+                } else {
+                    player.changeAnimation("runleft");
+                }
+            }
+        }
+    } else {
+
+        background(bg);
+        drawSprites();
+
+        //INTERFACE SETUP
+
+        textSize(16);
+        textFont("courier");
+        fill(255, 255, 255);
+        if (turnCount === 0) {
+            let scoreText = text("Click to Start", 810, 30);
+        } else {
+            let scoreText = text("Click to Try Again", 810, 30);
+        }
+
+        textSize(50);
+        textFont("courier");
+        fill(255, 255, 255);
+        let titleCard = text("Water Bubbles", 440, 270);
+
+        textSize(24);
+        textFont("courier");
+        fill(255, 255, 255);
+        let nameTag = text("Jenn Muriel", 330, 310);
+
+        bubble1.move();
+        bubble1.show();
+        bubble2.move();
+        bubble2.show();
+        bubble3.move();
+        bubble3.show();
+        bubble4.move();
+        bubble4.show();
+
     }
-  }
-
-  if (keyWentDown("d") || keyWentDown(RIGHT_ARROW)) {
-    playerStatus = "right";
-  }
-
-  if (keyDown("d") || keyDown(RIGHT_ARROW)) {
-    player.velocity.x += 0.4;
-    player.changeAnimation("runright");
-  }
-
-  if (keyWentDown("a") || keyWentDown(LEFT_ARROW)) {
-    playerStatus = "left";
-  }
-
-  if (keyDown("a") || keyDown(LEFT_ARROW)) {
-    player.velocity.x -= 0.4;
-    player.changeAnimation("runleft");
-  }
-
-  if (
-    keyWentUp("a") ||
-    keyWentUp("d") ||
-    keyWentUp(LEFT_ARROW) ||
-    keyWentUp(RIGHT_ARROW)
-  ) {
-    player.velocity.x = 0;
-    if (playerStatus === "right") {
-      if (player.velocity.y) {
-        player.changeAnimation("jumpright");
-      } else {
-        player.changeAnimation("runright");
-      }
-    } else if (playerStatus === "left") {
-      if (player.velocity.y) {
-        player.changeAnimation("jumpleft");
-      } else {
-        player.changeAnimation("runleft");
-      }
-    }
-  }
-  player = createSprite(450, 150, 80, 53);
-    player.addAnimation("normalright", "assets/player/readyright.gif");
-    player.addAnimation("normalleft", "assets/player/readyleft.gif");
-    player.addAnimation("runright", "assets/player/runright1.png", "assets/player/runright2.png",
-                        "assets/player/runright3.png", "assets/player/runright4.png");
-    player.addAnimation("runleft", "assets/player/runleft1.png", "assets/player/runleft2.png",
-                        "assets/player/runleft3.png", "assets/player/runleft4.png");
-    player.addAnimation("jumpright", "assets/player/attackright.gif");
-    player.addAnimation("jumpleft", "assets/player/attackleft.gif");
-    //PLATFORM COLLISION
-
-  oceanScape.forEach(block => {
-    if (player.collide(block)) {
-      player.velocity.y = 0;
-      if (playerStatus === "right") {
-        player.changeAnimation("normalright");
-      } else if (playerStatus === "left") {
-        player.changeAnimation("normalleft");
-      }
-    }
-  });
 }
 
+function mousePressed() {
+    if (hasStarted === false) {
+        if (player) {
+            player.remove();
+        }
+        // player setup
+        player = createSprite(450, 150, 80, 53);
+        player.addAnimation("normalright", "assets/player1/idlePlayerRight.png");
+        player.addAnimation("normalleft", "assets/player1/idlePlayerLeft.png");
+        player.addAnimation(
+            "runright",
+            "assets/player1/runPlayerRight01.png",
+            "assets/player1/runPlayerRight02.png",
+            "assets/player1/runPlayerRight03.png",
+            "assets/player1/runPlayerRight04.png"
+        );
+        player.addAnimation(
+            "runleft",
+            "assets/player1/runPlayerLeft01.png",
+            "assets/player1/runPlayerLeft02.png",
+            "assets/player1/runPlayerLeft03.png",
+            "assets/player1/runPlayerLeft04.png"
+        );
+        player.addAnimation("jumpright", "assets/player1/jumpPlayerRight.png");
+        player.addAnimation("jumpleft", "assets/player1/jumpPlayerLeft.png");
+
+
+        hasStarted = true;
+    } else {
+        if (paused === false) {
+            paused = true;
+            noLoop();
+        } else {
+            paused = false;
+            loop();
+        }
+    }
+}
+
+
+
 class Bubble {
-  constructor() {
-    this.x = 300;
-    this.y = 400;
-  }
+    constructor() {
+        this.x = 300;
+        this.y = 400;
+    }
 
-  move() {
-    this.x = this.x + random(-10, 10);
-    this.y = this.y + random(-10, 10);
-  }
+    move() {
+        this.x = this.x + random(-10, 10);
+        this.y = this.y + random(-10, 10);
+    }
 
-  show() {
-    stroke(255);
-    strokeWeight(4);
-    noFill();
-    ellipse(this.x, this.y, 24, 24);
-  }
+    show() {
+        stroke(255);
+        strokeWeight(4);
+        noFill();
+        ellipse(this.x, this.y, 24, 24);
+    }
 }
 
 class Enemy {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y
-  }
-  move() {
-    this.x = this.x + random(1, 1);
-    this.y = this.y + random(1, 1);
-  }
-  show() {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y
+    }
+    move() {
+        this.x = this.x + random(1, 1);
+        this.y = this.y + random(1, 1);
+    }
+    show() {
 
-  }
+    }
 }
