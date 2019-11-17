@@ -4,11 +4,6 @@
 /* eslint-disable no-undef */
 let cnv;
 let player;
-let enemy;
-let enemy2;
-let enemy3;
-let enemys4;
-let full;
 let roll;
 let base;
 let base2;
@@ -183,7 +178,7 @@ function draw() {
 
         //INTERFACE SETUP
 
-        textSize(16);
+        /*textSize(16);
         textFont("courier");
         fill(255, 255, 255);
         if (turnCount === 0) {
@@ -200,7 +195,7 @@ function draw() {
         textSize(24);
         textFont("courier");
         fill(255, 255, 255);
-        let nameTag = text("Jenn Muriel", 330, 310);
+        let nameTag = text("Jenn Muriel", 330, 310);*/
 
         bubble1.move();
         bubble1.show();
@@ -265,9 +260,10 @@ class Bubble {
     }
 
     show() {
+        
+        noFill();
         stroke(255);
         strokeWeight(4);
-        noFill();
         ellipse(this.x, this.y, 24, 24);
     }
 }
